@@ -1,10 +1,23 @@
 #!/usr/bin/env python3
 
+"""
+Module 1-simple_pagination
+"""
 import csv
 import math
 from typing import List
 
-index_range = __import__('0-simple_helper_function').index_range
+
+def index_range(page: int, page_size: int) -> tuple:
+    """
+    Takes two integer arguments page and page_size.
+    Returns a tuple of size two containing a start
+    index and an end index corresponding to the range
+    of indexes to return in a list for those particular
+    pagination parameters.
+    """
+    index_tuple = page_size * (page - 1), page * page_size
+    return index_tuple
 
 
 class Server:
@@ -13,6 +26,7 @@ class Server:
     DATA_FILE = "Popular_Baby_Names.csv"
 
     def __init__(self):
+        """init object"""
         self.__dataset = None
 
     def dataset(self) -> List[List]:
@@ -23,23 +37,18 @@ class Server:
                 reader = csv.reader(f)
                 dataset = [row for row in reader]
             self.__dataset = dataset[1:]
-
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """
-        Takes 2 args and returns the requested page number
-        page: the requested page number
-        page_size: number of records per page
-        both params must be int and > 0
+        paginate dataset
         """
         assert type(page) is int and page > 0
         assert type(page_size) is int and page_size > 0
 
-        data = self.dataset()
-
+        indexes = index_range(page, page_size)
         try:
-            idx = index_range(page, page_size)
-            return data[idx[0]:idx[1]]
+            data = self.dataset()
+            return data[indexes[0]: indexes[1]]
         except IndexError:
             return []
