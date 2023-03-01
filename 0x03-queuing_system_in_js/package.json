@@ -4,11 +4,22 @@
   "description": "Learning Objectives",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "./node_modules/.bin/eslint",
+    "check-lint": "lint [0-9]*.js",
+    "test": "./node_modules/.bin/mocha --require @babel/register --exit",
+    "dev": "nodemon --exec babel-node --presets @babel/preset-env"
   },
   "author": "Samuel Tezera",
   "license": "ISC",
   "dependencies": {
+    "nodemon": "^2.0.20",
     "redis": "^4.6.5"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.0",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/register": "^7.21.0"
   }
 }
